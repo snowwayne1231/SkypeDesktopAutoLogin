@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+html, body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    min-height: 420px;
+    min-width: 500px;
+    font-family: Segoe UI, Tahoma, 'Helvetica Neue', Helvetica, 'Meiryo UI', Meiryo, 'Arial Unicode MS', sans-serif;
+    color: #000;
+    background-color: #fff;
+    font-size: 16px;
+    line-height: 20px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%
+}
+
+a {
+    color: #00719C;
+    text-decoration: underline;
+}
+
+a:hover, a:focus {
+    color: #00AFF0;
+}
+
+h2 {
+    font-size: 2em;
+    text-align: center;
+}
+
+.screen {
+    display: none;
+    padding: 1em 2em;
+}
+
+.screen.is-active {
+    display: block;
+}
+
+.accounts {
+    border: 1px solid #ccc;
+    margin: 0 0 2em;
+}
+
+.account {
+    padding: 10px;
+}
+
+.path {
+    color: grey;
+    font-size: 13px;
+    padding: 0 0 0 1.5em;
+}
+
+.progressbar {
+    position:relative;
+    height: 220px;
+    width: 220px;
+    margin: 3em auto;
+}
+
+.progressbar canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 220px;
+    width: 220px;
+}
+
+.progressbar span {
+    color: #00AFF0;
+    display: block;
+    line-height: 220px;
+    text-align: center;
+    width: 220px;
+    font-family: sans-serif;
+    font-size: 40px;
+    font-weight: 100;
+    margin-left: 5px;
+}
+
+.file-finder {
+    margin: 2em 0 0;
+    display: none;
+    text-align: center;
+}
+.file-finder.is-active {
+    display: block;
+}
+
+.open-file {
+    cursor: pointer;
+}
+
+.next {
+    float: right;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 100%;
+    line-height: 16px;
+    text-align: center;
+    overflow: auto;
+    box-sizing: content-box;
+    padding: 11px 19px 12px;
+    min-width: 82px;
+    border-width: 2px;
+    border-style: solid;
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+    background-color: #007AA8;
+    border-color: #007AA8;
+}
+button.btn {
+    font: inherit;
+}
+.btn:focus {
+    outline: 1px dotted #00719C;
+}
+.btn:hover, .btn:active {
+    outline: none;
+    color: #CCEFFC;
+    background-color: #00719C;
+    border-color: #00719C;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.error-box {
+    margin: 5em 0;
+}
+
+.small {
+    font-size: 0.7em;
+}

@@ -1,0 +1,198 @@
+@font-face {
+  font-family: 'SkypeAssets-Light';
+  src: url('file:///fonts/SkypeAssets-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'SF';
+    font-style: normal;
+    font-weight: normal;
+    src: local(".SFNSDisplay-Regular"), local(".HelveticaNeueDeskInterface-Regular");
+}
+
+@font-face {
+    font-family: 'SF Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local(".SFNSDisplay-Heavy"), local(".HelveticaNeueDeskInterface-Heavy");
+}
+
+@font-face {
+    font-family: 'Segoe';
+    src: url('file:///fonts/SegoeUI-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Segoe Bold';
+    src: url('file:///fonts/SegoeUI-Bold.woff') format('woff');
+}
+
+.icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: relative;
+
+    font-family: "SkypeAssets-Light";
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+}
+
+.icon.title {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.icon.large {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
+    border-radius: 30px;
+}
+
+.icon.extraLarge {
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    line-height: 100px;
+    border-radius: 50px;
+}
+
+.icon.oneToOne .glyph::before {
+    content: '\E200'
+}
+.icon.group .glyph::before {
+    content: '\E20B'
+}
+.icon.pstn .glyph::before {
+    content: '\E11E'
+}
+.icon.acceptAudio .glyph::before {
+    content: '\E100'
+}
+.icon.rejectCall .glyph::before {
+    content: '\E101'
+}
+.icon.acceptVideo .glyph::before {
+    content: '\E102'
+}
+.icon.mergeCall .glyph::before {
+    content: '\E429'
+}
+
+body, html, button {
+    margin: 0;
+    padding: 0;
+    border: 0
+}
+
+html, body {
+    background: transparent;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    -webkit-user-select: none
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    background: #212124;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+}
+
+#title {
+    font-family: "SF Bold", "Segoe Bold", sans-serif;
+    color: white;
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-align: center;
+}
+
+#message {
+    font-family: "SF", "Segoe", sans-serif;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: gray;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-align: center;
+}
+
+#avatar {
+    margin-top: 25px;
+    width: 100px;
+    height: 100px;
+}
+
+#avatar .icon {
+    background: rgb(43, 44, 51)
+}
+
+#avatarImage {
+    border-radius: 50px;
+    background-position: 50% 50%;
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
+
+#buttons {
+    margin-top: 20px;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-bottom: 15px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#buttons .rejectCall {
+    background: #f44336;
+}
+#buttons .rejectCall:hover {
+    background: #e3392c;
+}
+
+#buttons .acceptAudio,
+#buttons .acceptVideo {
+    background: #4CAF50;
+}
+#buttons .acceptAudio:hover,
+#buttons .acceptVideo:hover {
+    background: #198725;
+}
+
+#buttons .icon.mergeCall {
+    color: black;
+}
+
+.noTransparency #topBar,
+.noTransparency .content {
+    border-radius: 0;
+}

@@ -1,0 +1,462 @@
+它在Windows單元中是這樣聲明的：
+type
+TMsg = packed record
+hwnd: HWND; / /窗口句柄
+message: UINT; / /消息常量標識符
+wParam: WPARAM ; // 32位消息的特定附加信息
+lParam: LPARAM ; // 32位消息的特定附加信息
+time: DWORD; / /消息創建時的時間
+pt: TPoint; / /消息創建時的鼠標位置
+end;
+
+消息中有什麼？
+是否覺得一個消息記錄中的信息像希臘語一樣？如果是這樣，那麼看一看下面的解釋：
+hwnd 32位的窗口句柄。窗口可以是任何類型的屏幕對象，因為Win32能夠維護大多數可視對象的句柄(窗口、對話框、按鈕、編輯框等)。
+message 用於區別其他消息的常量值，這些常量可以是Windows單元中預定義的常量，也可以是自定義的常量。
+wParam 通常是一個與消息有關的常量值，也可能是窗口或控件的句柄。
+lParam 通常是一個指向內存中數據的指針。由於W P a r a m、l P a r a m和P o i n t e r都是3 2位的，
+因此，它們之間可以相互轉換。
+
+
+WM_COPY
+WM_CUT
+WM_PASTE
+
+WM_NULL = $0000;
+WM_Create = $0001;
+應用程序創建一個窗口
+WM_DESTROY = $0002;
+一個窗口被銷毀
+WM_MOVE = $0003;
+移動一個窗口
+WM_SIZE = $0005;
+改變一個窗口的大小
+WM_ACTIVATE = $0006;
+一個窗口被激活或失去激活狀態；
+WM_SETFOCUS = $0007;
+獲得焦點後
+WM_KILLFOCUS = $0008;
+失去焦點
+WM_ENABLE = $000A;
+改變enable狀態
+WM_SETREDRAW = $000B;
+設置窗口是否能重畫
+WM_SETTEXT = $000C;
+應用程序發送此消息來設置一個窗口的文本
+WM_GETTEXT = $000D;
+應用程序發送此消息來複製對應窗口的文本到緩衝區
+WM_GETTEXTLENGTH = $000E;
+得到與一個窗口有關的文本的長度（不包含空字符）
+WM_PAINT = $000F;
+要求一個窗口重畫自己
+WM_CLOSE = $0010;
+當一個窗口或應用程序要關閉時發送一個信號
+WM_QUERYENDSESSION = $0011;
+當用戶選擇結束對話框或程序自己調用ExitWindows函數
+WM_QUIT = $0012;
+用來結束程序運行或當程序調用postquitmessage函數
+WM_QUERYOPEN = $0013;
+當用戶窗口恢復以前的大小位置時，把此消息發送給某個圖標
+WM_ERASEBKGND = $0014;
+當窗口背景必須被擦除時（例在窗口改變大小時）
+WM_SYSCOLORCHANGE = $0015;
+當系統顏色改變時，發送此消息給所有頂級窗口
+WM_ENDSESSION = $0016;
+當系統進程發出WM_QUERYENDSESSION消息後，此消息發送給應用程序，
+通知它對話是否結束
+WM_SYSTEMERROR = $0017;
+WM_SHOWWINDOW = $0018;
+當隱藏或顯示窗口是發送此消息給這個窗口
+WM_ACTIVATEAPP = $001C;
+發此消息給應用程序哪個窗口是激活的，哪個是非激活的；
+WM_FONTCHANGE = $001D;
+當系統的字體資源庫變化時發送此消息給所有頂級窗口
+WM_TIMECHANGE = $001E;
+當系統的時間變化時發送此消息給所有頂級窗口
+WM_CANCELMODE = $001F;
+發送此消息來取消某種正在進行的摸態（操作）
+WM_SETCURSOR = $0020;
+如果鼠標引起光標在某個窗口中移動且鼠標輸入沒有被捕獲時，就發消息給某個窗口
+WM_MOUSEACTIVATE = $0021;
+當光標在某個非激活的窗口中而用戶正按著鼠標的某個鍵發送此消息給當前窗口
+WM_CHILDACTIVATE = $0022;
+發送此消息給MDI子窗口當用戶點擊此窗口的標題欄，或當窗口被激活，移動，改變大小
+WM_QUEUESYNC = $0023;
+此消息由基於計算機的訓練程序發送，通過WH_JOURNALPALYBACK的hook程序
+分離出用戶輸入消息
+WM_GETMINMAXINFO = $0024;
+此消息發送給窗口當它將要改變大小或位置；
+WM_PAINTICON = $0026;
+發送給最小化窗口當它圖標將要被重畫
+WM_ICONERASEBKGND = $0027;
+此消息發送給某個最小化窗口，僅當它在畫圖標前它的背景必須被重畫
+WM_NEXTDLGCTL = $0028;
+發送此消息給一個對話框程序去更改焦點位置
+WM_SPOOLERSTATUS = $002A;
+每當打印管理列隊增加或減少一條作業時發出此消息
+WM_DRAWITEM = $002B;
+當button，combobox，listbox，menu的可視外觀改變時發送
+此消息給這些空件的所有者
+WM_MEASUREITEM = $002C;
+當button, combo box, list box, list view control, or menu item 被創建時
+發送此消息給控件的所有者
+WM_DeleteITEM = $002D;
+當the list box 或 combo box 被銷毀 或 當 某些項被刪除通過LB_DeleteSTRING, LB_RESETCONTENT, CB_DeleteSTRING, or CB_RESETCONTENT 消息
+WM_VKEYTOITEM = $002E;
+此消息有一個LBS_WANTKEYBOARDINPUT風格的發出給它的所有者來響應WM_KEYDOWN消息
+WM_CHARTOITEM = $002F;
+此消息由一個LBS_WANTKEYBOARDINPUT風格的列表框發送給他的所有者來響應WM_CHAR消息
+WM_SETFONT = $0030;
+當繪製文本時程序發送此消息得到控件要用的顏色
+WM_GETFONT = $0031;
+應用程序發送此消息得到當前控件繪製文本的字體
+WM_SETHOTKEY = $0032;
+應用程序發送此消息讓一個窗口與一個熱鍵相關連
+WM_GETHOTKEY = $0033;
+應用程序發送此消息來判斷熱鍵與某個窗口是否有關聯
+WM_QUERYDRAGICON = $0037;
+此消息發送給最小化窗口，當此窗口將要被拖放而它的類中沒有定義圖標，應用程序能
+返回一個圖標或光標的句柄，當用戶拖放圖標時系統顯示這個圖標或光標
+WM_COMPAREITEM = $0039;
+發送此消息來判定combobox或listbox新增加的項的相對位置
+WM_GETOBJECT = $003D;
+WM_COMPACTING = $0041;
+顯示內存已經很少了
+WM_WINDOWPOSCHANGING = $0046;
+發送此消息給那個窗口的大小和位置將要被改變時，來調用setwindowpos函數或其它窗口管理函數
+WM_WINDOWPOSCHANGED = $0047;
+發送此消息給那個窗口的大小和位置已經被改變時，來調用setwindowpos函數或其它窗口管理函數
+WM_POWER = $0048;（適用於16位的windows）
+當系統將要進入暫停狀態時發送此消息
+WM_COPYDATA = $004A;
+當一個應用程序傳遞數據給另一個應用程序時發送此消息
+WM_CANCELJOURNAL = $004B;
+當某個用戶取消程序日誌激活狀態，提交此消息給程序
+WM_NOTIFY = $004E;
+當某個控件的某個事件已經發生或這個控件需要得到一些信息時，發送此消息給它的父窗口
+WM_INPUTLANGCHANGEREQUEST = $0050;
+當用戶選擇某種輸入語言，或輸入語言的熱鍵改變
+WM_INPUTLANGCHANGE = $0051;
+當平台現場已經被改變後發送此消息給受影響的最頂級窗口
+WM_TCARD = $0052;
+當程序已經初始化windows幫助例程時發送此消息給應用程序
+WM_HELP = $0053;
+此消息顯示用戶按下了F1，如果某個菜單是激活的，就發送此消息個此窗口關聯的菜單，否則就
+發送給有焦點的窗口，如果當前都沒有焦點，就把此消息發送給當前激活的窗口
+WM_USERCHANGED = $0054;
+當用戶已經登入或退出後發送此消息給所有的窗口，當用戶登入或退出時系統更新用戶的具體
+設置信息，在用戶更新設置時系統馬上發送此消息；
+WM_NOTIFYFORMAT = $0055;
+公用控件，自定義控件和他們的父窗口通過此消息來判斷控件是使用ANSI還是UNICODE結構
+在WM_NOTIFY消息，使用此控件能使某個控件與它的父控件之間進行相互通信
+WM_CONTEXTMENU = $007B;
+當用戶某個窗口中點擊了一下右鍵就發送此消息給這個窗口
+WM_STYLECHANGING = $007C;
+當調用SETWINDOWLONG函數將要改變一個或多個 窗口的風格時發送此消息給那個窗口
+WM_STYLECHANGED = $007D;
+當調用SETWINDOWLONG函數一個或多個 窗口的風格後發送此消息給那個窗口
+WM_DISPLAYCHANGE = $007E;
+當顯示器的分辨率改變後發送此消息給所有的窗口
+WM_GETICON = $007F;
+此消息發送給某個窗口來返回與某個窗口有關連的大圖標或小圖標的句柄；
+WM_SETICON = $0080;
+程序發送此消息讓一個新的大圖標或小圖標與某個窗口關聯；
+WM_NCCreate = $0081;
+當某個窗口第一次被創建時，此消息在WM_Create消息發送前發送；
+WM_NCDESTROY = $0082;
+此消息通知某個窗口，非客戶區正在銷毀
+WM_NCCALCSIZE = $0083;
+當某個窗口的客戶區域必須被核算時發送此消息
+WM_NCHITTEST = $0084;//移動鼠標，按住或釋放鼠標時發生
+WM_NCPAINT = $0085;
+程序發送此消息給某個窗口當它（窗口）的框架必須被繪製時；
+WM_NCACTIVATE = $0086;
+此消息發送給某個窗口 僅當它的非客戶區需要被改變來顯示是激活還是非激活狀態；
+WM_GETDLGCODE = $0087;
+發送此消息給某個與對話框程序關聯的控件，widdows控制方位鍵和TAB鍵使輸入進入此控件
+通過響應WM_GETDLGCODE消息，應用程序可以把他當成一個特殊的輸入控件並能處理它
+WM_NCMOUSEMOVE = $00A0;
+當光標在一個窗口的非客戶區內移動時發送此消息給這個窗口 //非客戶區為：窗體的標題欄及窗
+的邊框體
+WM_NCLBUTTONDOWN = $00A1;
+當光標在一個窗口的非客戶區同時按下鼠標左鍵時提交此消息
+WM_NCLBUTTONUP = $00A2;
+當用戶釋放鼠標左鍵同時光標某個窗口在非客戶區十發送此消息；
+WM_NCLBUTTONDBLCLK = $00A3;
+當用戶雙擊鼠標左鍵同時光標某個窗口在非客戶區十發送此消息
+WM_NCRBUTTONDOWN = $00A4;
+當用戶按下鼠標右鍵同時光標又在窗口的非客戶區時發送此消息
+WM_NCRBUTTONUP = $00A5;
+當用戶釋放鼠標右鍵同時光標又在窗口的非客戶區時發送此消息
+WM_NCRBUTTONDBLCLK = $00A6;
+當用戶雙擊鼠標右鍵同時光標某個窗口在非客戶區十發送此消息
+WM_NCMBUTTONDOWN = $00A7;
+當用戶按下鼠標中鍵同時光標又在窗口的非客戶區時發送此消息
+WM_NCMBUTTONUP = $00A8;
+當用戶釋放鼠標中鍵同時光標又在窗口的非客戶區時發送此消息
+WM_NCMBUTTONDBLCLK = $00A9;
+當用戶雙擊鼠標中鍵同時光標又在窗口的非客戶區時發送此消息
+WM_KEYFIRST = $0100;
+WM_KEYDOWN = $0100;
+//按下一個鍵
+WM_KEYUP = $0101;
+//釋放一個鍵
+WM_CHAR = $0102;
+//按下某鍵，並已發出WM_KEYDOWN， WM_KEYUP消息
+WM_DEADCHAR = $0103;
+當用translatemessage函數翻譯WM_KEYUP消息時發送此消息給擁有焦點的窗口
+WM_SYSKEYDOWN = $0104;
+當用戶按住ALT鍵同時按下其它鍵時提交此消息給擁有焦點的窗口；
+WM_SYSKEYUP = $0105;
+當用戶釋放一個鍵同時ALT 鍵還按著時提交此消息給擁有焦點的窗口
+WM_SYSCHAR = $0106;
+當WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函數翻譯後提交此消息給擁有焦點的窗口
+WM_SYSDEADCHAR = $0107;
+當WM_SYSKEYDOWN消息被TRANSLATEMESSAGE函數翻譯後發送此消息給擁有焦點的窗口
+WM_KEYLAST = $0108;
+WM_INITDIALOG = $0110;
+在一個對話框程序被顯示前發送此消息給它，通常用此消息初始化控件和執行其它任務
+WM_COMMAND = $0111;
+當用戶選擇一條菜單命令項或當某個控件發送一條消息給它的父窗口，一個快捷鍵被翻譯
+WM_SYSCOMMAND = $0112;
+當用戶選擇窗口菜單的一條命令或當用戶選擇最大化或最小化時那個窗口會收到此消息
+WM_TIMER = $0113; //發生了定時器事件
+WM_HSCROLL = $0114;
+當一個窗口標準水平滾動條產生一個滾動事件時發送此消息給那個窗口，也發送給擁有它的控件
+WM_VSCROLL = $0115;
+當一個窗口標準垂直滾動條產生一個滾動事件時發送此消息給那個窗口也，發送給擁有它的控件 WM_INITMENU = $0116;
+當一個菜單將要被激活時發送此消息，它發生在用戶菜單條中的某項或按下某個菜單鍵，它允許
+程序在顯示前更改菜單
+WM_INITMENUPOPUP = $0117;
+當一個下拉菜單或子菜單將要被激活時發送此消息，它允許程序在它顯示前更改菜單，而不要
+改變全部
+WM_MENUSelect = $011F;
+當用戶選擇一條菜單項時發送此消息給菜單的所有者（一般是窗口）
+WM_MENUCHAR = $0120;
+當菜單已被激活用戶按下了某個鍵（不同於加速鍵），發送此消息給菜單的所有者；
+WM_ENTERIDLE = $0121;
+當一個模態對話框或菜單進入空載狀態時發送此消息給它的所有者，一個模態對話框或菜單進入空載狀態就是在處理完一條或幾條先前的消息後沒有消息它的列隊中等待
+WM_MENURBUTTONUP = $0122;
+WM_MENUDRAG = $0123;
+WM_MENUGETOBJECT = $0124;
+WM_UNINITMENUPOPUP = $0125;
+WM_MENUCOMMAND = $0126;
+WM_CHANGEUISTATE = $0127;
+WM_UpdateUISTATE = $0128;
+WM_QUERYUISTATE = $0129;
+WM_CTLCOLORMSGBOX = $0132;
+在windows繪製消息框前發送此消息給消息框的所有者窗口，通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置消息框的文本和背景顏色
+WM_CTLCOLOREDIT = $0133;
+當一個編輯型控件將要被繪製時發送此消息給它的父窗口；通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置編輯框的文本和背景顏色
+WM_CTLCOLORLISTBOX = $0134;
+當一個列表框控件將要被繪製前發送此消息給它的父窗口；通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置列表框的文本和背景顏色
+WM_CTLCOLORBTN = $0135;
+當一個按鈕控件將要被繪製時發送此消息給它的父窗口；通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置按紐的文本和背景顏色
+WM_CTLCOLORDLG = $0136;
+當一個對話框控件將要被繪製前發送此消息給它的父窗口；通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置對話框的文本背景顏色
+WM_CTLCOLORSCROLLBAR= $0137;
+當一個滾動條控件將要被繪製時發送此消息給它的父窗口；通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置滾動條的背景顏色
+WM_CTLCOLORSTATIC = $0138;
+當一個靜態控件將要被繪製時發送此消息給它的父窗口；通過響應這條消息，所有者窗口可以
+通過使用給定的相關顯示設備的句柄來設置靜態控件的文本和背景顏色
+WM_MOUSEFIRST = $0200;
+WM_MOUSEMOVE = $0200;
+// 移動鼠標
+WM_LBUTTONDOWN = $0201;
+//按下鼠標左鍵
+WM_LBUTTONUP = $0202;
+//釋放鼠標左鍵
+WM_LBUTTONDBLCLK = $0203;
+//雙擊鼠標左鍵
+WM_RBUTTONDOWN = $0204;
+//按下鼠標右鍵
+WM_RBUTTONUP = $0205;
+//釋放鼠標右鍵
+WM_RBUTTONDBLCLK = $0206;
+//雙擊鼠標右鍵
+WM_MBUTTONDOWN = $0207;
+//按下鼠標中鍵
+WM_MBUTTONUP = $0208;
+//釋放鼠標中鍵
+WM_MBUTTONDBLCLK = $0209;
+//雙擊鼠標中鍵
+WM_MOUSEWHEEL = $020A;
+當鼠標輪子轉動時發送此消息個當前有焦點的控件
+WM_MOUSELAST = $020A;
+WM_PARENTNOTIFY = $0210;
+當MDI子窗口被創建或被銷毀，或用戶按了一下鼠標鍵而光標在子窗口上時發送此消息給它的父窗口
+WM_ENTERMENULOOP = $0211;
+發送此消息通知應用程序的主窗口that已經進入了菜單循環模式
+WM_EXITMENULOOP = $0212;
+發送此消息通知應用程序的主窗口that已退出了菜單循環模式
+WM_NEXTMENU = $0213;
+WM_SIZING = 532;
+當用戶正在調整窗口大小時發送此消息給窗口；通過此消息應用程序可以監視窗口大小和位置
+也可以修改他們
+WM_CAPTURECHANGED = 533;
+發送此消息 給窗口當它失去捕獲的鼠標時；
+WM_MOVING = 534;
+當用戶在移動窗口時發送此消息，通過此消息應用程序可以監視窗口大小和位置
+也可以修改他們；
+WM_POWERBROADCAST = 536;
+此消息發送給應用程序來通知它有關電源管理事件；
+WM_DEVICECHANGE = 537;
+當設備的硬件配置改變時發送此消息給應用程序或設備驅動程序
+WM_IME_STARTCOMPOSITION = $010D;
+WM_IME_ENDCOMPOSITION = $010E;
+WM_IME_COMPOSITION = $010F;
+WM_IME_KEYLAST = $010F;
+WM_IME_SETCONTEXT = $0281;
+WM_IME_NOTIFY = $0282;
+WM_IME_CONTROL = $0283;
+WM_IME_COMPOSITIONFULL = $0284;
+WM_IME_Select = $0285;
+WM_IME_CHAR = $0286;
+WM_IME_REQUEST = $0288;
+WM_IME_KEYDOWN = $0290;
+WM_IME_KEYUP = $0291;
+WM_MDICreate = $0220;
+應用程序發送此消息給多文檔的客戶窗口來創建一個MDI 子窗口
+WM_MDIDESTROY = $0221;
+應用程序發送此消息給多文檔的客戶窗口來關閉一個MDI 子窗口
+WM_MDIACTIVATE = $0222;
+應用程序發送此消息給多文檔的客戶窗口通知客戶窗口激活另一個MDI子窗口，當客戶窗口收到
+此消息後，它發出WM_MDIACTIVE消息給MDI子窗口（未激活）激活它；
+WM_MDIRESTORE = $0223;
+程序 發送此消息給MDI客戶窗口讓子窗口從最大最小化恢復到原來大小
+WM_MDINEXT = $0224;
+程序 發送此消息給MDI客戶窗口激活下一個或前一個窗口
+WM_MDIMAXIMIZE = $0225;
+程序發送此消息給MDI客戶窗口來最大化一個MDI子窗口；
+WM_MDITILE = $0226;
+程序 發送此消息給MDI客戶窗口以平鋪方式重新排列所有MDI子窗口
+WM_MDICASCADE = $0227;
+程序 發送此消息給MDI客戶窗口以層疊方式重新排列所有MDI子窗口
+WM_MDIICONARRANGE = $0228;
+程序 發送此消息給MDI客戶窗口重新排列所有最小化的MDI子窗口
+WM_MDIGETACTIVE = $0229;
+程序 發送此消息給MDI客戶窗口來找到激活的子窗口的句柄
+WM_MDISETMENU = $0230;
+程序 發送此消息給MDI客戶窗口用MDI菜單代替子窗口的菜單
+WM_ENTERSIZEMOVE = $0231;
+WM_EXITSIZEMOVE = $0232;
+WM_DropFILES = $0233;
+WM_MDIREFRESHMENU = $0234;
+WM_MOUSEHOVER = $02A1;
+WM_MOUSELEAVE = $02A3;
+WM_CUT = $0300;
+程序發送此消息給一個編輯框或combobox來刪除當前選擇的文本
+WM_COPY = $0301;
+程序發送此消息給一個編輯框或combobox來複製當前選擇的文本到剪貼板
+WM_PASTE = $0302;
+程序發送此消息給editcontrol或combobox從剪貼板中得到數據
+WM_CLEAR = $0303;
+程序發送此消息給editcontrol或combobox清除當前選擇的內容；
+WM_UNDO = $0304;
+程序發送此消息給editcontrol或combobox撤消最後一次操作
+WM_RENDERFORMAT = $0305；
+
+WM_RENDERALLFORMATS = $0306;
+WM_DESTROYCLIPBOARD = $0307;
+當調用ENPTYCLIPBOARD函數時 發送此消息給剪貼板的所有者
+WM_DRAWCLIPBOARD = $0308;
+當剪貼板的內容變化時發送此消息給剪貼板觀察鏈的第一個窗口；它允許用剪貼板觀察窗口來
+顯示剪貼板的新內容；
+WM_PAINTCLIPBOARD = $0309;
+當剪貼板包含CF_OWNERDIPLAY格式的數據並且剪貼板觀察窗口的客戶區需要重畫；
+WM_VSCROLLCLIPBOARD = $030A;
+WM_SIZECLIPBOARD = $030B;
+當剪貼板包含CF_OWNERDIPLAY格式的數據並且剪貼板觀察窗口的客戶區域的大小已經改變是此消息通過剪貼板觀察窗口發送給剪貼板的所有者；
+WM_ASKCBFORMATNAME = $030C;
+通過剪貼板觀察窗口發送此消息給剪貼板的所有者來請求一個CF_OWNERDISPLAY格式的剪貼板的名字
+WM_CHANGECBCHAIN = $030D;
+當一個窗口從剪貼板觀察鏈中移去時發送此消息給剪貼板觀察鏈的第一個窗口；
+WM_HSCROLLCLIPBOARD = $030E;
+此消息通過一個剪貼板觀察窗口發送給剪貼板的所有者 ；它發生在當剪貼板包含CFOWNERDISPALY格式的數據並且有個事件在剪貼板觀察窗的水平滾動條上；所有者應滾動剪貼板圖像並更新滾動條的值；
+WM_QUERYNEWPALETTE = $030F;
+此消息發送給將要收到焦點的窗口，此消息能使窗口在收到焦點時同時有機會實現他的邏輯調色板
+WM_PALETTEISCHANGING= $0310;
+當一個應用程序正要實現它的邏輯調色板時發此消息通知所有的應用程序
+WM_PALETTECHANGED = $0311;
+此消息在一個擁有焦點的窗口實現它的邏輯調色板後發送此消息給所有頂級並重疊的窗口，以此
+來改變系統調色板
+WM_HOTKEY = $0312;
+當用戶按下由REGISTERHOTKEY函數註冊的熱鍵時提交此消息
+WM_PRINT = 791;
+應用程序發送此消息僅當WINDOWS或其它應用程序發出一個請求要求繪製一個應用程序的一部分；
+WM_PRINTCLIENT = 792;
+WM_HANDHELDFIRST = 856;
+WM_HANDHELDLAST = 863;
+WM_PENWINFIRST = $0380;
+WM_PENWINLAST = $038F;
+WM_COALESCE_FIRST = $0390;
+WM_COALESCE_LAST = $039F;
+WM_DDE_FIRST = $03E0;
+WM_DDE_INITIATE = WM_DDE_FIRST + 0;
+一個DDE客戶程序提交此消息開始一個與服務器程序的會話來響應那個指定的程序和主題名；
+WM_DDE_TERMINATE = WM_DDE_FIRST + 1;
+一個DDE應用程序（無論是客戶還是服務器）提交此消息來終止一個會話；
+WM_DDE_ADVISE = WM_DDE_FIRST + 2;
+一個DDE客戶程序提交此消息給一個DDE服務程序來請求服務器每當數據項改變時更新它
+WM_DDE_UNADVISE = WM_DDE_FIRST + 3;
+一個DDE客戶程序通過此消息通知一個DDE服務程序不更新指定的項或一個特殊的剪貼板格式的項
+WM_DDE_ACK = WM_DDE_FIRST + 4;
+此消息通知一個DDE（動態數據交換）程序已收到並正在處理WM_DDE_POKE, WM_DDE_EXECUTE, WM_DDE_DATA, WM_DDE_ADVISE, WM_DDE_UNADVISE, or WM_DDE_INITIAT消息
+WM_DDE_DATA = WM_DDE_FIRST + 5;
+一個DDE服務程序提交此消息給DDE客戶程序來傳遞個一數據項給客戶或通知客戶的一條可用數據項
+WM_DDE_REQUEST = WM_DDE_FIRST + 6;
+一個DDE客戶程序提交此消息給一個DDE服務程序來請求一個數據項的值；
+WM_DDE_POKE = WM_DDE_FIRST + 7;
+一個DDE客戶程序提交此消息給一個DDE服務程序，客戶使用此消息來請求服務器接收一個未經同意的數據項；服務器通過答覆WM_DDE_ACK消息提示是否它接收這個數據項；
+WM_DDE_EXECUTE = WM_DDE_FIRST + 8;
+一個DDE客戶程序提交此消息給一個DDE服務程序來發送一個字符串給服務器讓它像串行命令一樣被處理，服務器通過提交WM_DDE_ACK消息來作回應；
+WM_DDE_LAST = WM_DDE_FIRST + 8;
+WM_APP = $8000;
+WM_USER = $0400;
+此消息能幫助應用程序自定義私有消息；
+/////////////////////////////////////////////////////////////////////
+通知消息(Notification message)是指這樣一種消息，一個窗口內的子控件發生了一些事情，需要通
+知父窗口。通知消息只適用於標準的窗口控件如按鈕、列表框、組合框、編輯框，以及Windows 95公
+共控件如樹狀視圖、列表視圖等。例如，單擊或雙擊一個控件、在控件中選擇部分文本、操作控件的
+滾動條都會產生通知消息。
+按扭
+B N _ C L I C K E D //用戶單擊了按鈕
+B N _ D I S A B L E //按鈕被禁止
+B N _ D O U B L E C L I C K E D //用戶雙擊了按鈕
+B N _ H I L I T E //用戶加亮了按鈕
+B N _ PA I N T按鈕應當重畫
+B N _ U N H I L I T E加亮應當去掉
+組合框
+C B N _ C L O S E U P組合框的列表框被關閉
+C B N _ D B L C L K用戶雙擊了一個字符串
+C B N _ D R O P D O W N組合框的列表框被拉出
+C B N _ E D I T C H A N G E用戶修改了編輯框中的文本
+C B N _ E D I T U P D AT E編輯框內的文本即將更新
+C B N _ E R R S PA C E組合框內存不足
+C B N _ K I L L F O C U S組合框失去輸入焦點
+C B N _ S E L C H A N G E在組合框中選擇了一項
+C B N _ S E L E N D C A N C E L用戶的選擇應當被取消
+C B N _ S E L E N D O K用戶的選擇是合法的
+C B N _ S E T F O C U S組合框獲得輸入焦點
+編輯框
+E N _ C H A N G E編輯框中的文本己更新
+E N _ E R R S PA C E編輯框內存不足
+E N _ H S C R O L L用戶點擊了水平滾動條
+E N _ K I L L F O C U S編輯框正在失去輸入焦點
+E N _ M A X T E X T插入的內容被截斷
+E N _ S E T F O C U S編輯框獲得輸入焦點
+E N _ U P D AT E編輯框中的文本將要更新
+E N _ V S C R O L L用戶點擊了垂直滾動條消息含義
+列表框
+L B N _ D B L C L K用戶雙擊了一項
+L B N _ E R R S PA C E列表框內存不夠
+L B N _ K I L L F O C U S列表框正在失去輸入焦點
+L B N _ S E L C A N C E L選擇被取消
+L B N _ S E L C H A N G E選擇了另一項
+L B N _ S E T F O C U S列表框獲得輸入焦點
