@@ -27,11 +27,11 @@ def handle_skype(handle_id):
 
     windll.user32.SetForegroundWindow(handle_id)
     clsname = win32gui.GetClassName(handle_id)
-    print('HWND: {} , Class Name: {}'.format(handle_id, clsname))
+    print('Start Handle Skype Login [HWND: {} , Class Name: {}]'.format(handle_id, clsname))
 
-    # inner_widget_id = get_inner_skype_widget(handle_id)
-    # inner_widget_class_name = win32gui.GetClassName(inner_widget_id)
-    # print('inner_widget_class_name: ', inner_widget_class_name)
+    inner_widget_id = get_inner_skype_widget(handle_id)
+    inner_widget_class_name = win32gui.GetClassName(inner_widget_id)
+    print('Chrome Widget Class Name: ', inner_widget_class_name)
 
     time.sleep(0.5)
 
@@ -48,7 +48,7 @@ def handle_skype(handle_id):
         time.sleep(1)
         windll.user32.SetForegroundWindow(hwnd)
         _rect = win32gui.GetClientRect(hwnd)
-        # print('_rect: ', _rect)
+        print('Check Login Screen Rect: ', _rect)
         # screen_xy = win32gui.ClientToScreen(handle_id, (0, 0))
         # print('screen xy = {}'.format(screen_xy))
 
@@ -62,6 +62,7 @@ def handle_skype(handle_id):
 
     def enter_str(hwnd, _str, delete=0):
         windll.user32.SetForegroundWindow(handle_id)
+        print('Start Writing [{}....]'.format(_str[:2]))
 
         for _ in _str:
             win32api.PostMessage(hwnd, win32con.WM_CHAR, ord(_), 0)
@@ -73,12 +74,14 @@ def handle_skype(handle_id):
             for _ in range(delete):
                 win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, toKeyCode('back'), 0)
             time.sleep(0.2)
+        print('End.')
     
 
     if is_login_screen(handle_id):
 
         time.sleep(3)
-        print('start.')
+        print('Start Click All Points.')
+
         _pos_start_btn = (227, 500)
         _pos_start_or_build_btn = (226, 375)
         _pos_middle_btn = (2250, 460)
@@ -105,6 +108,7 @@ def handle_skype(handle_id):
         click(_pos_other_account_btn[0], _pos_other_account_btn[1])
         click(_pos_start_or_build_btn[0], _pos_start_or_build_btn[1])
         time.sleep(1)
+        print('Finded Inputs.')
         click(_pos_login_account_input[0], _pos_login_account_input[1])
         click(_pos_login_account_input[0], _pos_login_account_input[1])
         time.sleep(1)
@@ -138,11 +142,11 @@ def get_all_exsit_skypes(is_debug=False):
                 result_list.append(handle_id)
             
             if is_debug:
-                print('TITLE = {} ,  CLASS = {} , HWND_ID = {}'.format(_title, _clsname, handle_id))
+                print('Getting EnumWindows :: TITLE = {} ,  CLASS = {} , HWND_ID = {}'.format(_title, _clsname, handle_id))
     
     win32gui.EnumWindows(_cb, None)
     if is_debug:
-        print('==================================')
+        print('===================================================')
     return result_list
 
 def get_new_skype_id(old_ids):
@@ -190,15 +194,20 @@ def loop_handle_fn(Skype_exe):
         # have skype launched
         program = Skype_exe + " --secondary"
     
+    print("Skype Program: {}".format(program))
+
     _exec = win32api.WinExec(program)
     _i = 0
     _max = 30
 
+    print('Start Getting Skype HWND ID..')
+
     while True:
         time.sleep(1)
-        
+        print('Getting... [{}]'.format(_i+1), end='\r')
         new_skype_id = get_new_skype_id(_exsit_skype_ids)
         if new_skype_id:
+            print('Finded HWND ID: ', new_skype_id)
             time.sleep(3)
             handle_skype(new_skype_id)
             break
@@ -284,7 +293,7 @@ if __name__ == '__main__':
         else:
             filename = askopenfilename(filetypes=[('exe', '.exe')])
 
-        print(filename)
+        print("File name: {}".format(filename))
         _file_list = re.split(r'[\/\\]+', filename)
         _file = _file_list[-1]
         if re.match('Skype.exe', _file):
