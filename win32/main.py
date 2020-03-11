@@ -17,11 +17,6 @@ SKYPE_CLASS_INTERMEDIATE_REG = re.compile('Intermediate D3D Window')
 SKYPE_FOR_DESKTOP_CLASS_REG = re.compile('^CabinetWClass*')
 
 
-
-def watting_check(second, handle_id):
-    time.sleep(second)
-    _foreground = win32gui.GetForegroundWindow()
-    return _foreground == _foreground
         
 
 def get_inner_skype_widget(skype_id):
@@ -37,7 +32,7 @@ def get_inner_skype_widget(skype_id):
         # print('_foreground title: ',win32gui.GetWindowText(_foreground))
         if _foreground == skype_id:
             inner_id = win32gui.FindWindowEx(_foreground, 0, None, None)
-            print('FindWindowEx inner_id: ', inner_id)
+            # print('FindWindowEx inner_id: ', inner_id)
             time.sleep(1)
             return inner_id
         else:
@@ -106,7 +101,7 @@ def handle_skype(handle_id):
     if is_login_screen(handle_id):
 
         time.sleep(3)
-        print('start doing.')
+        print('start.')
         _pos_start_btn = (227, 500)
         _pos_start_or_build_btn = (226, 375)
         _pos_middle_btn = (2250, 460)
@@ -117,7 +112,7 @@ def handle_skype(handle_id):
 
         def click(x,y):
             iparam = x + (y * 0x10000)
-            print('click iparam: ', iparam)
+            # print('click iparam: ', iparam)
             windll.user32.SetForegroundWindow(handle_id)
             win32api.PostMessage(handle_id, win32con.WM_MOUSEMOVE, 1, iparam)
             time.sleep(0.2)
@@ -154,58 +149,6 @@ def handle_skype(handle_id):
 
         print('Is not login screen.')
 
-    
-
-    # win32gui.FlashWindow(handle_id, 1)
-
-
-    # watting_check(1, handle_id) # watting for animation
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, win32con.VK_TAB, 0)
-    # watting_check(0.5, handle_id) # watting lag
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, win32con.VK_RETURN, 0)
-
-    # time.sleep(1)
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, win32con.VK_TAB, 0)
-    # watting_check(0.5, handle_id)
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, win32con.VK_RETURN, 0)
-
-    # _textface = win32gui.GetTextFace(inner_widget_id)
-    # print('_textface: ', _textface)
-
-    
-
-    # time.sleep(1)
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, 0x51, 0)
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, 0x51, 0)
-
-    # time.sleep(1)
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, 0x51, 0)
-    # win32api.PostMessage(inner_widget_id, win32con.WM_KEYDOWN, 0x51, 0)
-
-    # wfi = win32event.WaitForInputIdle(inner_widget_id, 5)
-    # print('wfi: ', wfi)
-
-    # win32gui.CloseWindow(handle_id)
-
-    # t, p = win32process.GetWindowThreadProcessId(handle_id)
-    # print('T: ', t)
-    # print('P: ', p)
-    # handle = win32api.OpenProcess(win32con.PROCESS_TERMINATE, 0, p)
-
-    # t, p = win32process.GetWindowThreadProcessId(handle_id)
-    # if handle:
-    #     print('handle: ', handle)
-        # win32gui.PostMessage(handle, win32con.WM_CLOSE, 0, 0)
-        # win32api.TerminateProcess(handle, 0)
-    # win32api.CloseHandle(handle_id)
-
-    
-    
-    
-    # _cursor = win32api.SetCursorPos([30,150])
-    # print('_cursor: ', _cursor)
-
-    # win32gui.CloseWindow(finded)
 
 
 def get_all_exsit_skypes(is_debug=False):
@@ -266,11 +209,6 @@ def loop_handle_fn(Skype_exe):
     
     return True
 
-    # shell = win32com.client.Dispatch("WScript.Shell")
-    # shell.SendKeys("{ENTER}")
-    # shell.SendKeys("tsadfdsgr")
-    # shell.SendKeys("{ENTER}")
-
 
 
 def toKeyCode(c):
@@ -322,10 +260,10 @@ def toKeyCode(c):
 
 def getBufferContent(hwnd):
     buf_size = win32gui.SendMessage(hwnd, win32con.WM_GETTEXTLENGTH, 0, 0)
-    print('buf_size: ', buf_size)
+    # print('buf_size: ', buf_size)
     buf = win32gui.PyMakeBuffer(buf_size)
     win32gui.SendMessage(hwnd, win32con.WM_GETTEXT, buf_size, buf)
-    print('_buf_str: ', str(buf))
+    # print('_buf_str: ', str(buf))
     address, length = win32gui.PyGetBufferAddressAndLen(buf)
     text = win32gui.PyGetString(address, length)
     buf.release()
