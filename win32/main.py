@@ -17,30 +17,7 @@ SKYPE_CLASS_INTERMEDIATE_REG = re.compile('Intermediate D3D Window')
 SKYPE_FOR_DESKTOP_CLASS_REG = re.compile('^CabinetWClass*')
 
 
-        
 
-def get_inner_skype_widget(skype_id):
-    _max = 30
-    _i = 0
-    while True:
-        time.sleep(1)
-        if _i > _max:
-            raise Exception('Time out of get inner skype widget.')
-        _foreground = win32gui.GetForegroundWindow()
-        # print('_foreground id: ', _foreground)
-        # print('_foreground classname: ',win32gui.GetClassName(_foreground))
-        # print('_foreground title: ',win32gui.GetWindowText(_foreground))
-        if _foreground == skype_id:
-            inner_id = win32gui.FindWindowEx(_foreground, 0, None, None)
-            # print('FindWindowEx inner_id: ', inner_id)
-            time.sleep(1)
-            return inner_id
-        else:
-            windll.user32.SetForegroundWindow(skype_id)
-        
-        _i += 1
-
-    return None
 
 
 def handle_skype(handle_id):
@@ -128,7 +105,6 @@ def handle_skype(handle_id):
         click(_pos_other_account_btn[0], _pos_other_account_btn[1])
         click(_pos_start_or_build_btn[0], _pos_start_or_build_btn[1])
         time.sleep(1)
-        # win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('enter'), 0)
         click(_pos_login_account_input[0], _pos_login_account_input[1])
         click(_pos_login_account_input[0], _pos_login_account_input[1])
         time.sleep(1)
@@ -180,6 +156,30 @@ def get_new_skype_id(old_ids):
     
     return new_id
 
+def get_inner_skype_widget(skype_id):
+    _max = 30
+    _i = 0
+    while True:
+        time.sleep(1)
+        if _i > _max:
+            raise Exception('Time out of get inner skype widget.')
+        _foreground = win32gui.GetForegroundWindow()
+        # print('_foreground id: ', _foreground)
+        # print('_foreground classname: ',win32gui.GetClassName(_foreground))
+        # print('_foreground title: ',win32gui.GetWindowText(_foreground))
+        if _foreground == skype_id:
+            inner_id = win32gui.FindWindowEx(_foreground, 0, None, None)
+            # print('FindWindowEx inner_id: ', inner_id)
+            time.sleep(1)
+            return inner_id
+        else:
+            windll.user32.SetForegroundWindow(skype_id)
+        
+        _i += 1
+
+    return None
+
+
 
 def loop_handle_fn(Skype_exe):
     _exsit_skype_ids = get_all_exsit_skypes()
@@ -208,7 +208,6 @@ def loop_handle_fn(Skype_exe):
         _i += 1
     
     return True
-
 
 
 def toKeyCode(c):
