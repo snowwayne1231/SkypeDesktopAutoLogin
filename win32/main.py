@@ -95,15 +95,15 @@ def handle_skype(handle_id):
     _pos_other_account_btn = (224, 402)
     _pos_login_account_input = (80, 210)
     _i = 1
-    _max = 3
+    _max = 2
 
     while True:
 
         if _i >= _max:
-            win32gui.CloseWindow(handle_id)
-            win32api.PostMessage(handle_id, win32con.WM_CLOSE, 0, 0)
-            messagebox.showerror('Error', 'Logining failed.')
-            exit(2)
+            # win32gui.CloseWindow(handle_id)
+            # win32api.PostMessage(handle_id, win32con.WM_CLOSE, 0, 0)
+            # messagebox.showerror('Error', 'Logining failed.')
+            # exit(2)
             break
         
         time.sleep(3)
