@@ -6,6 +6,7 @@ import win32con
 # import win32process
 # import subprocess
 # import win32com.client
+from sys import exit
 from ctypes import windll
 from tkinter import Tk, messagebox
 from tkinter.filedialog import askopenfilename
@@ -33,7 +34,7 @@ def handle_skype(handle_id):
     inner_widget_class_name = win32gui.GetClassName(inner_widget_id)
     print('Chrome Widget Class Name: ', inner_widget_class_name)
 
-    time.sleep(0.5)
+    time.sleep(2)
 
     def is_login_screen(hwnd):
         _login_size = (454, 631)
@@ -75,59 +76,63 @@ def handle_skype(handle_id):
                 win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, toKeyCode('back'), 0)
             time.sleep(0.2)
         print('End.')
+
+    def click(x,y):
+                iparam = x + (y * 0x10000)
+                # print('click iparam: ', iparam)
+                windll.user32.SetForegroundWindow(handle_id)
+                win32api.PostMessage(handle_id, win32con.WM_MOUSEMOVE, 1, iparam)
+                time.sleep(0.2)
+                win32api.PostMessage(handle_id, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, iparam)
+                time.sleep(0.2)
+                win32api.PostMessage(handle_id, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, iparam)
+                time.sleep(0.2)
     
 
-    if is_login_screen(handle_id):
+    _pos_start_btn = (227, 500)
+    _pos_start_or_build_btn = (226, 375)
+    _pos_middle_btn = (2250, 460)
+    _pos_other_account_btn = (224, 402)
+    _pos_login_account_input = (80, 210)
+    _i = 1
+    _max = 3
 
-        time.sleep(3)
-        print('Start Click All Points.')
+    while True:
 
-        _pos_start_btn = (227, 500)
-        _pos_start_or_build_btn = (226, 375)
-        _pos_middle_btn = (2250, 460)
-        _pos_other_account_btn = (224, 402)
-        _pos_login_account_input = (80, 210)
+        if _i >= _max:
+            win32gui.CloseWindow(handle_id)
+            win32api.PostMessage(handle_id, win32con.WM_CLOSE, 0, 0)
+            messagebox.showerror('Error', 'Logining failed.')
+            exit(2)
+            break
         
-
-
-        def click(x,y):
-            iparam = x + (y * 0x10000)
-            # print('click iparam: ', iparam)
-            windll.user32.SetForegroundWindow(handle_id)
-            win32api.PostMessage(handle_id, win32con.WM_MOUSEMOVE, 1, iparam)
-            time.sleep(0.2)
-            win32api.PostMessage(handle_id, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, iparam)
-            time.sleep(0.2)
-            win32api.PostMessage(handle_id, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, iparam)
-            time.sleep(0.2)
-        
-        
-
-        click(_pos_start_btn[0], _pos_start_btn[1])
-        click(_pos_middle_btn[0], _pos_middle_btn[1])
-        click(_pos_other_account_btn[0], _pos_other_account_btn[1])
-        click(_pos_start_or_build_btn[0], _pos_start_or_build_btn[1])
-        time.sleep(1)
-        print('Finded Inputs.')
-        click(_pos_login_account_input[0], _pos_login_account_input[1])
-        click(_pos_login_account_input[0], _pos_login_account_input[1])
-        time.sleep(1)
-
-
-        enter_str(handle_id, acc)
-        time.sleep(1)
-        enter_str(handle_id, pwd, delete=len(acc) + len(pwd))
         time.sleep(3)
 
         if is_login_screen(handle_id):
-            win32gui.CloseWindow(handle_id)
-            messagebox.showerror('Error', 'Logining failed.')
-            exit(2)
-        
-    
-    else:
 
-        print('Is not login screen.')
+            print('Start Click All Points.')
+            click(_pos_start_btn[0], _pos_start_btn[1])
+            click(_pos_middle_btn[0], _pos_middle_btn[1])
+            click(_pos_other_account_btn[0], _pos_other_account_btn[1])
+            click(_pos_start_or_build_btn[0], _pos_start_or_build_btn[1])
+            time.sleep(1)
+            print('Finded Inputs.')
+            click(_pos_login_account_input[0], _pos_login_account_input[1])
+            click(_pos_login_account_input[0], _pos_login_account_input[1])
+            time.sleep(1)
+
+
+            enter_str(handle_id, acc)
+            time.sleep(1)
+            enter_str(handle_id, pwd, delete=len(acc) + len(pwd))
+            time.sleep(3)
+
+        else:
+            
+            break
+
+        _i += 1
+    
 
 
 
@@ -142,7 +147,7 @@ def get_all_exsit_skypes(is_debug=False):
                 result_list.append(handle_id)
             
             if is_debug:
-                print('Getting EnumWindows :: TITLE = {} ,  CLASS = {} , HWND_ID = {}'.format(_title, _clsname, handle_id))
+                print('Getting EnumWindows Matched Skype :: TITLE = {} ,  CLASS = {} , HWND_ID = {}'.format(_title, _clsname, handle_id))
     
     win32gui.EnumWindows(_cb, None)
     if is_debug:
@@ -204,11 +209,11 @@ def loop_handle_fn(Skype_exe):
 
     while True:
         time.sleep(1)
-        print('Getting... [{}]'.format(_i+1), end='\r')
+        print('Getting... [{}]'.format(_i+1))
         new_skype_id = get_new_skype_id(_exsit_skype_ids)
         if new_skype_id:
             print('Finded HWND ID: ', new_skype_id)
-            time.sleep(3)
+            time.sleep(4)
             handle_skype(new_skype_id)
             break
         else:
@@ -284,10 +289,11 @@ if __name__ == '__main__':
         
     try:
 
+        print('Start Skype Auto Login.')
         Tk().withdraw()
         initialdir = r'C:\Program Files (x86)\Microsoft\Skype for Desktop'
         program = r"C:\Program Files (x86)\Microsoft\Skype for Desktop\Skype.exe"
-        
+        print('Withdrawed.. Ask Open File Name:')
         if os.path.isdir(initialdir):
             filename = askopenfilename(initialdir=initialdir, filetypes=[('exe', '.exe')])
         else:
