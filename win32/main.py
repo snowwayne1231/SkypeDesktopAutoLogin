@@ -1,4 +1,4 @@
-import os, re, time
+import sys, os, re, time, getopt
 import win32gui
 import win32api
 import win32con
@@ -23,8 +23,25 @@ SKYPE_FOR_DESKTOP_CLASS_REG = re.compile('^CabinetWClass*')
 
 def handle_skype(handle_id):
 
-    acc = 'snow.jhung@rv88.tw'
-    pwd = 'Kowei03283'
+    acc = ''
+    pwd = ''
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "a:p:", [])
+        for o, a in opts:
+            if o in ("-a", "--acc"):
+                acc = a
+            elif o in ("-p", "--pwd"):
+                pwd = a
+        
+    except getopt.GetoptError as err:
+        print(err)
+        messagebox.showerror('Error', err)
+        sys.exit(2)
+
+    if not (acc and pwd):
+        messagebox.showerror('Error', 'Account or Password not given.')
+        sys.exit(2)
 
     windll.user32.SetForegroundWindow(handle_id)
     clsname = win32gui.GetClassName(handle_id)
@@ -295,7 +312,10 @@ if __name__ == '__main__':
         program = r"C:\Program Files (x86)\Microsoft\Skype for Desktop\Skype.exe"
         print('Withdrawed.. Ask Open File Name:')
         if os.path.isdir(initialdir):
-            filename = askopenfilename(initialdir=initialdir, filetypes=[('exe', '.exe')])
+            if os.path.isfile(program):
+                filename = program
+            else:
+                filename = askopenfilename(initialdir=initialdir, filetypes=[('exe', '.exe')])
         else:
             filename = askopenfilename(filetypes=[('exe', '.exe')])
 
