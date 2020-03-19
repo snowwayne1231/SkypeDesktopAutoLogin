@@ -324,7 +324,7 @@ if __name__ == '__main__':
         _file = _file_list[-1]
         if re.match('Skype.exe', _file):
             loop_handle_fn(filename)
-            messagebox.showinfo('Success', 'Done.')
+            # messagebox.showinfo('Success', 'Done.')
         else:
             messagebox.showerror("Error", "It's not Skype.exe")
 
