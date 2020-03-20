@@ -114,7 +114,7 @@ def handle_skype(handle_id):
     _pos_login_account_input = (80, 210)
     _pos_skypelogo_bottom = (215, 120)
     _i = 1
-    _max = 2
+    _max = 1
 
     while True:
 
@@ -148,13 +148,13 @@ def handle_skype(handle_id):
             time.sleep(1)
             enter_str(handle_id, pwd, delete=len(acc) + len(pwd))
             time.sleep(1)
-            click(_pos_skypelogo_bottom[0], _pos_skypelogo_bottom[1])
-            time.sleep(0.5)
-            win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('tab'), 0)
-            time.sleep(0.5)
-            win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('enter'), 0)
-            time.sleep(0.5)
-            enter_str(handle_id, '', delete=len(acc))
+            # click(_pos_skypelogo_bottom[0], _pos_skypelogo_bottom[1])
+            # time.sleep(0.5)
+            # win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('tab'), 0)
+            # time.sleep(0.5)
+            # win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('enter'), 0)
+            # time.sleep(0.5)
+            # enter_str(handle_id, '', delete=len(acc))
 
             _i += 1
 
