@@ -85,25 +85,26 @@ def handle_skype(handle_id):
         for _ in _str:
             win32api.PostMessage(hwnd, win32con.WM_CHAR, ord(_), 0)
         
-        win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, toKeyCode('enter'), 0)
+        if len(_str) > 0:
+            win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, toKeyCode('enter'), 0)
 
         if delete:
             time.sleep(0.2)
             for _ in range(delete):
                 win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, toKeyCode('back'), 0)
             time.sleep(0.2)
-        print('End.')
+        print('End Writing.')
 
     def click(x,y):
-                iparam = x + (y * 0x10000)
-                # print('click iparam: ', iparam)
-                windll.user32.SetForegroundWindow(handle_id)
-                win32api.PostMessage(handle_id, win32con.WM_MOUSEMOVE, 1, iparam)
-                time.sleep(0.2)
-                win32api.PostMessage(handle_id, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, iparam)
-                time.sleep(0.2)
-                win32api.PostMessage(handle_id, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, iparam)
-                time.sleep(0.2)
+        iparam = x + (y * 0x10000)
+        # print('click iparam: ', iparam)
+        windll.user32.SetForegroundWindow(handle_id)
+        win32api.PostMessage(handle_id, win32con.WM_MOUSEMOVE, 1, iparam)
+        time.sleep(0.2)
+        win32api.PostMessage(handle_id, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, iparam)
+        time.sleep(0.2)
+        win32api.PostMessage(handle_id, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, iparam)
+        time.sleep(0.2)
     
 
     _pos_start_btn = (227, 500)
@@ -111,12 +112,13 @@ def handle_skype(handle_id):
     _pos_middle_btn = (2250, 460)
     _pos_other_account_btn = (224, 402)
     _pos_login_account_input = (80, 210)
+    _pos_skypelogo_bottom = (215, 120)
     _i = 1
     _max = 2
 
     while True:
 
-        if _i >= _max:
+        if _i > _max:
             # win32gui.CloseWindow(handle_id)
             # win32api.PostMessage(handle_id, win32con.WM_CLOSE, 0, 0)
             # messagebox.showerror('Error', 'Logining failed.')
@@ -132,23 +134,35 @@ def handle_skype(handle_id):
             click(_pos_middle_btn[0], _pos_middle_btn[1])
             click(_pos_other_account_btn[0], _pos_other_account_btn[1])
             click(_pos_start_or_build_btn[0], _pos_start_or_build_btn[1])
-            time.sleep(1)
+            time.sleep(1.5)
             print('Finded Inputs.')
-            click(_pos_login_account_input[0], _pos_login_account_input[1])
-            click(_pos_login_account_input[0], _pos_login_account_input[1])
-            time.sleep(1)
+            # click(_pos_login_account_input[0], _pos_login_account_input[1])
+            # click(_pos_login_account_input[0], _pos_login_account_input[1])
+            click(_pos_skypelogo_bottom[0], _pos_skypelogo_bottom[1])
+            click(_pos_skypelogo_bottom[0], _pos_skypelogo_bottom[1])
+            win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('tab'), 0)
+            time.sleep(0.5)
 
 
             enter_str(handle_id, acc)
             time.sleep(1)
             enter_str(handle_id, pwd, delete=len(acc) + len(pwd))
-            time.sleep(3)
+            time.sleep(1)
+            click(_pos_skypelogo_bottom[0], _pos_skypelogo_bottom[1])
+            time.sleep(0.5)
+            win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('tab'), 0)
+            time.sleep(0.5)
+            win32api.PostMessage(handle_id, win32con.WM_KEYDOWN, toKeyCode('enter'), 0)
+            time.sleep(0.5)
+            enter_str(handle_id, '', delete=len(acc))
+
+            _i += 1
 
         else:
             
             break
 
-        _i += 1
+        
     
 
 
